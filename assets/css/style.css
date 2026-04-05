@@ -1,0 +1,800 @@
+/* assets/css/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* =============================================
+   CSS Custom Properties (Tokens)
+   ============================================= */
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary-color: #10b981;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --info-color: #3b82f6;
+
+    --bg-color: #f8fafc;
+    --surface-color: #ffffff;
+    --surface-rgb: 255, 255, 255;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+
+    --sidebar-bg: #ffffff;
+    --sidebar-active: #f1f5f9;
+
+    --input-bg: #ffffff;
+    --dropdown-bg: #ffffff;
+    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --border-radius: 12px;
+    --transition-speed: 0.3s;
+}
+
+[data-theme="dark"] {
+    --primary-color: #6366f1;
+    --primary-hover: #818cf8;
+
+    --bg-color: #0f172a;
+    --surface-color: #1e293b;
+    --surface-rgb: 30, 41, 59;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+
+    --sidebar-bg: #1e293b;
+    --sidebar-active: #334155;
+
+    --input-bg: #0f172a;
+    --dropdown-bg: #1e293b;
+    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+}
+
+/* =============================================
+   Base Styles
+   ============================================= */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Also ensure no transitions on layout containers */
+.wrapper, #sidebar, #content, .top-navbar, .card-widget {
+    transition: none !important;
+}
+
+/* =============================================
+   Glass Effect (Fixed: can't use CSS var in rgba())
+   ============================================= */
+.glass-effect {
+    background: rgba(var(--surface-rgb), 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .glass-effect {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* =============================================
+   Layout
+   ============================================= */
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* =============================================
+   Sidebar
+   ============================================= */
+#sidebar {
+    width: 260px;
+    min-width: 260px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    /* transition: all var(--transition-speed); REMOVED TO FIX SLOW THEME FADE */
+    z-index: 1050;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+#sidebar ul.components {
+    padding: 12px 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    margin: 0;
+}
+
+#sidebar ul li a {
+    padding: 12px 20px;
+    font-size: 0.975rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background 0.2s, color 0.1s; /* Specific transitions instead of ALL */
+    font-weight: 500;
+    border-right: 3px solid transparent;
+}
+
+#sidebar ul li a:hover,
+#sidebar ul li.active > a {
+    color: var(--primary-color);
+    background: var(--sidebar-active);
+    border-right-color: var(--primary-color);
+}
+
+/* Mobile overlay */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+
+.sidebar-overlay.show {
+    display: block;
+}
+
+/* =============================================
+   Content Area
+   ============================================= */
+#content {
+    flex: 1;
+    min-width: 0;
+    min-height: 100vh;
+    /* transition: all var(--transition-speed); REMOVED */
+    display: flex;
+    flex-direction: column;
+}
+
+/* =============================================
+   Top Navbar
+   ============================================= */
+.top-navbar {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    gap: 12px;
+}
+
+.top-navbar .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* Theme toggle button */
+#theme-toggle {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+#theme-toggle:hover {
+    background-color: var(--sidebar-active);
+}
+
+/* =============================================
+   Cards & Widgets
+   ============================================= */
+.card-widget {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card-widget:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.18), 0 0 15px rgba(79, 70, 229, 0.08);
+}
+
+[data-theme='dark'] .card-widget:hover {
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35), 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.card-widget-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+/* =============================================
+   Forms
+   ============================================= */
+.form-control,
+.form-select {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: border-color 0.2s, box-shadow 0.2s; /* Keep functional transitions, skip background/color for Instant Theme */
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.2);
+}
+
+.form-control::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Input group dark mode */
+.input-group-text {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+/* Checkbox / switch */
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Textarea */
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Dark mode: form label */
+[data-theme="dark"] .form-label {
+    color: var(--text-primary);
+}
+
+/* =============================================
+   Tables
+   ============================================= */
+.table-custom {
+    color: var(--text-primary);
+    --bs-table-striped-bg: var(--sidebar-active);
+    --bs-table-hover-bg: var(--sidebar-active);
+    --bs-table-border-color: var(--border-color);
+}
+
+.table-custom th {
+    background-color: var(--sidebar-active);
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.table-custom td {
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    color: var(--text-primary);
+}
+
+/* Activity description — clamp long text in table cells */
+.table-custom td.desc-cell {
+    max-width: 300px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.table-custom tbody tr:hover {
+    background-color: var(--sidebar-active);
+}
+
+/* Bootstrap table overrides for dark mode */
+[data-theme="dark"] .table {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .table > :not(caption) > * > * {
+    color: var(--text-primary);
+    background-color: transparent;
+    border-bottom-color: var(--border-color);
+}
+
+/* Fix: .table-light thead in dark mode (used in reports) */
+[data-theme="dark"] .table-light th,
+[data-theme="dark"] thead.table-light th,
+[data-theme="dark"] .table-light > * > * {
+    background-color: var(--sidebar-active) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .table-bordered td,
+[data-theme="dark"] .table-bordered th {
+    border-color: var(--border-color) !important;
+}
+
+/* =============================================
+   Buttons
+   ============================================= */
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary-custom:hover,
+.btn-primary-custom:focus {
+    background-color: var(--primary-hover);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+/* =============================================
+   Dropdown
+   ============================================= */
+.dropdown-menu {
+    background-color: var(--dropdown-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+    z-index: 1055;
+}
+
+.dropdown-item {
+    color: var(--text-primary);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--sidebar-active);
+    color: var(--primary-color);
+}
+
+.dropdown-divider {
+    border-color: var(--border-color);
+}
+
+.dropdown-item-text {
+    color: var(--text-secondary);
+}
+
+/* =============================================
+   Alerts
+   ============================================= */
+[data-theme="dark"] .alert-danger {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .alert-success {
+    background-color: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #6ee7b7;
+}
+
+[data-theme="dark"] .alert-warning {
+    background-color: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #fcd34d;
+}
+
+[data-theme="dark"] .alert-info {
+    background-color: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #93c5fd;
+}
+
+/* =============================================
+   Nav Tabs
+   ============================================= */
+.nav-tabs {
+    border-bottom-color: var(--border-color);
+}
+
+.nav-tabs .nav-link {
+    color: var(--text-secondary);
+    border-color: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--primary-color);
+    border-color: var(--border-color) var(--border-color) transparent;
+    background-color: var(--sidebar-active);
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--surface-color);
+    border-color: var(--border-color) var(--border-color) var(--surface-color);
+    color: var(--primary-color) !important;
+    font-weight: 600;
+}
+
+/* Dark mode nav tabs fix */
+[data-theme="dark"] .nav-tabs .nav-link {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .nav-tabs .nav-link.active {
+    background-color: var(--surface-color);
+    border-color: var(--border-color) var(--border-color) var(--surface-color);
+    color: var(--primary-color) !important;
+}
+
+/* FIX: bg-light used on nav tabs wrapper \u2014 white stripe in dark mode */
+[data-theme="dark"] .bg-light {
+    background-color: var(--sidebar-active) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Tab content dark mode */
+[data-theme="dark"] .tab-content {
+    color: var(--text-primary);
+}
+
+/* FIX: list-group-item in dark mode (health tab) */
+[data-theme="dark"] .list-group-item {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* =============================================
+   Badges — Dark Mode Fixes
+   ============================================= */
+
+/* FIX: bg-info text-dark badge is near-invisible in dark mode */
+[data-theme="dark"] .badge.bg-info {
+    background-color: #0e7490 !important;
+    color: #e0f2fe !important;
+}
+
+/* FIX: bg-warning text-dark in dark mode */
+[data-theme="dark"] .badge.bg-warning.text-dark,
+[data-theme="dark"] .badge.bg-warning {
+    background-color: #92400e !important;
+    color: #fef3c7 !important;
+}
+
+[data-theme="dark"] .text-dark {
+    color: var(--text-primary) !important;
+}
+
+/* Fix: bg-light in dark mode (table thead, badges) */
+[data-theme="dark"] .bg-light {
+    background-color: var(--sidebar-active) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Fix: text-dark on amounts/cells in dark mode */
+[data-theme="dark"] .fw-bold.text-dark,
+[data-theme="dark"] td.text-dark {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+/* =============================================
+   Progress Bars — Dark Mode Fix
+   ============================================= */
+[data-theme="dark"] .progress {
+    background-color: var(--border-color);
+}
+
+/* =============================================
+   DataTables dark mode overrides
+   ============================================= */
+[data-theme="dark"] .dataTables_wrapper .dataTables_filter input,
+[data-theme="dark"] .dataTables_wrapper .dataTables_length select {
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .dataTables_wrapper .dataTables_info,
+[data-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+[data-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+[data-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--sidebar-active) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* =============================================
+   Login Page
+   ============================================= */
+.login-page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bg-color) 0%, var(--border-color) 100%);
+}
+
+.login-card {
+    background: var(--surface-color);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.login-card h2 {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+/* =============================================
+   Emergency Alert
+   ============================================= */
+.btn-emergency {
+    background-color: var(--danger-color);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70%  { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* =============================================
+   Utility Classes
+   ============================================= */
+.text-primary-custom { color: var(--primary-color) !important; }
+.bg-surface { background-color: var(--surface-color) !important; }
+
+/* =============================================
+   Ripple Button Effect
+   ============================================= */
+.btn { position: relative; overflow: hidden; }
+
+.ripple {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    border-radius: 50%;
+    animation: animateRipple 0.6s linear forwards;
+}
+
+@keyframes animateRipple {
+    0%   { width: 0;     height: 0;     opacity: 0.5; }
+    100% { width: 400px; height: 400px; opacity: 0; }
+}
+
+/* =============================================
+   Animated Blobs (Login background)
+   ============================================= */
+.blob-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    opacity: 0.45;
+    animation: float 20s infinite alternate cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+.blob.shape-1 {
+    width: 60vh; height: 60vh;
+    background: var(--primary-color);
+    top: -10%; left: -10%;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+}
+
+.blob.shape-2 {
+    width: 70vh; height: 70vh;
+    background: var(--info-color);
+    bottom: -20%; right: -10%;
+    animation-delay: -5s;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+.blob.shape-3 {
+    width: 50vh; height: 50vh;
+    background: var(--secondary-color);
+    top: 40%; left: 40%;
+    animation-delay: -10s;
+    border-radius: 50%;
+}
+
+@keyframes float {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    33%  { transform: translate(5vw, -5vh) rotate(10deg) scale(1.1); }
+    66%  { transform: translate(-3vw, 4vh) rotate(-10deg) scale(0.9); }
+    100% { transform: translate(4vw, 4vh) rotate(20deg) scale(1.05); }
+}
+
+/* =============================================
+   Responsive - Mobile & Tablet
+   ============================================= */
+@media (max-width: 991.98px) {
+    #sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform var(--transition-speed);
+        z-index: 1050;
+    }
+
+    #sidebar.active {
+        transform: translateX(0);
+    }
+
+    #content {
+        width: 100%;
+    }
+
+    .top-navbar {
+        padding: 10px 14px;
+    }
+
+    .container-fluid.p-4 {
+        padding: 14px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-card {
+        padding: 28px 20px;
+        margin: 16px;
+    }
+
+    .card-widget {
+        padding: 16px;
+    }
+
+    .hero-title {
+        font-size: 2.4rem;
+    }
+
+    /* Stack action buttons on very small screens */
+    .top-navbar .nav-right {
+        gap: 8px;
+    }
+}
+
+/* =============================================
+   Settings Page — remove double padding
+   ============================================= */
+.settings-card-body {
+    padding: 0 !important;
+}
+
+/* =============================================
+   Print Styles
+   ============================================= */
+@media print {
+    #sidebar, .top-navbar, .d-print-none { display: none !important; }
+    #content { width: 100% !important; }
+    body { background: white !important; color: black !important; }
+}
+
+/* Hydro-Style Premium Badges */
+.badge-soft-primary  { background-color: rgba(79, 70, 229, 0.1);  color: #4f46e5 !important; border: 1px solid rgba(79, 70, 229, 0.2); }
+.badge-soft-success  { background-color: rgba(16, 185, 129, 0.1); color: #10b981 !important; border: 1px solid rgba(16, 185, 129, 0.2); }
+.badge-soft-danger   { background-color: rgba(239, 68, 68, 0.1);  color: #ef4444 !important; border: 1px solid rgba(239, 68, 68, 0.2); }
+.badge-soft-warning  { background-color: rgba(245, 158, 11, 0.1); color: #f59e0b !important; border: 1px solid rgba(245, 158, 11, 0.2); }
+.badge-soft-info     { background-color: rgba(59, 130, 246, 0.1);  color: #3b82f6 !important; border: 1px solid rgba(59, 130, 246, 0.2); }
+.badge-soft-secondary{ background-color: rgba(100, 116, 139, 0.1);color: #64748b !important; border: 1px solid rgba(100, 116, 139, 0.2); }
+
+[data-theme="dark"] .badge-soft-primary   { background-color: rgba(99, 102, 241, 0.2);  color: #818cf8 !important; }
+[data-theme="dark"] .badge-soft-success   { background-color: rgba(16, 185, 129, 0.2);  color: #34d399 !important; }
+[data-theme="dark"] .badge-soft-danger    { background-color: rgba(239, 68, 68, 0.2);   color: #f87171 !important; }
+[data-theme="dark"] .badge-soft-warning   { background-color: rgba(245, 158, 11, 0.2);  color: #fbbf24 !important; }
+[data-theme="dark"] .badge-soft-info      { background-color: rgba(59, 130, 246, 0.2);  color: #60a5fa !important; }
+[data-theme="dark"] .badge-soft-secondary { background-color: rgba(100, 116, 139, 0.2); color: #94a3b8 !important; }
+
+.card-hydro {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.card-hydro:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Dark mode card-hydro fix */
+[data-theme="dark"] .card-hydro {
+    background: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Ensure all text in cards/widgets inherits theme properly */
+[data-theme="dark"] .card-widget,
+[data-theme="dark"] .card-widget h1,
+[data-theme="dark"] .card-widget h2,
+[data-theme="dark"] .card-widget h3,
+[data-theme="dark"] .card-widget h4,
+[data-theme="dark"] .card-widget h5,
+[data-theme="dark"] .card-widget h6,
+[data-theme="dark"] .card-widget p,
+[data-theme="dark"] .card-widget span,
+[data-theme="dark"] .card-widget label {
+    color: var(--text-primary);
+}
+
+/* Fix: Bootstrap thead.bg-light in dark mode */
+[data-theme="dark"] thead.bg-light th,
+[data-theme="dark"] thead.bg-light td,
+[data-theme="dark"] .table .bg-light th {
+    background-color: var(--sidebar-active) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Fix: Ensure form alerts are visible */
+[data-theme="dark"] .alert {
+    color: var(--text-primary);
+}

@@ -1,0 +1,361 @@
+:root {
+    /* Primary Colors */
+    --primary: #4f46e5;
+    --primary-rgb: 79, 70, 229;
+    --primary-light: #818cf8;
+    --secondary: #10b981;
+
+    /* Light Theme Variables */
+    --bg-color: #f8f9fa;
+    --surface-bg: #ffffff;
+    --card-bg: #eef2f7;
+    --text-color: #111827;
+    --text-muted: #4b5563;
+    --border-color: #d1d5db;
+    
+    /* Footer & Nav */
+    --footer-bg: #1e293b;
+    --nav-bg: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="dark"] {
+    /* Primary Colors Update for Dark Mode */
+    --primary: #6366f1;
+    --primary-rgb: 99, 102, 241;
+
+    /* Dark Theme Variables */
+    --bg-color: #0f172a;
+    --surface-bg: #111827;
+    --card-bg: #1f2937;
+    --text-color: #f9fafb;
+    --text-muted: #d1d5db;
+    --border-color: #374151;
+
+    /* Footer & Nav */
+    --footer-bg: #020617;
+    --nav-bg: rgba(17, 24, 39, 0.85); /* rgba matching --surface-bg */
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+section {
+    background-color: var(--surface-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* We have sections like #home, #services which may have custom backgrounds, but we override them cleanly */
+#services, #facilities, #testimonials, #about, #meal-plan, #inquiry {
+    background-color: var(--bg-color);
+}
+
+.card, .box, .service-card, .facility-card, .testimonial-card, .glass-card {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, label, strong {
+    color: inherit;
+    transition: color 0.3s;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* === TABLE GLOBAL RESET — Override Bootstrap defaults === */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-color);
+    --bs-table-border-color: var(--border-color);
+    --bs-table-hover-bg: rgba(0,0,0,0.03);
+    color: var(--text-color);
+}
+
+.table td, .table th {
+    background-color: transparent !important;
+    border-color: var(--border-color);
+}
+
+/* ============================================================
+   MEAL PLAN TABLE — Completely isolated from Bootstrap
+   Uses dedicated classes to guarantee readability in ALL themes
+   ============================================================ */
+
+.meal-table-wrapper {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+}
+
+/* The table itself — zero Bootstrap background */
+.meal-table {
+    background-color: transparent !important;
+    --bs-table-bg: transparent !important;
+    --bs-table-color: inherit !important;
+    --bs-table-striped-bg: transparent !important;
+    --bs-table-hover-bg: rgba(0,0,0,0.04) !important;
+}
+
+/* Every data cell */
+.meal-cell {
+    color: #111827 !important;         /* BLACK in Light Mode */
+    background-color: transparent !important;
+    font-size: 0.9rem;
+    padding: 14px 8px !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Cook / Helper pill tags */
+.meal-staff-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1.5px solid #64748b;
+    color: #111827 !important;         /* BLACK in Light Mode */
+    background: transparent;
+}
+
+/* ---- DARK MODE overrides ---- */
+[data-theme="dark"] .meal-table-wrapper {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .meal-cell {
+    color: #f1f5f9 !important;         /* WHITE in Dark Mode */
+    border-color: #334155 !important;
+}
+
+[data-theme="dark"] .meal-staff-tag {
+    color: #f1f5f9 !important;         /* WHITE in Dark Mode */
+    border-color: #94a3b8;
+    background: rgba(255,255,255,0.05);
+}
+
+[data-theme="dark"] .meal-table tr:hover .meal-cell {
+    background-color: rgba(255,255,255,0.04) !important;
+}
+
+/* Navbar */
+.glass-navbar {
+    background: var(--nav-bg) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+    font-weight: 800;
+    color: var(--primary) !important;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--text-color) !important;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--primary) !important;
+}
+
+/* Buttons */
+.btn-primary-custom {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #ffffff !important;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-weight: 600;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.3);
+}
+
+/* HERO SECTION - Always dark background, so text must always be white */
+.hero-section {
+    position: relative;
+    padding: 160px 0 100px;
+    background: url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
+    background-color: #0f172a !important; /* fallback */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.75) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: #ffffff !important;
+}
+
+.hero-content h1, .hero-content p, .hero-content span {
+    color: #ffffff !important;
+}
+
+.hero-content .lead {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.hero-content .hero-badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ffffff !important;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.hero-title span {
+    color: var(--primary-light) !important;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--primary) !important;
+}
+
+/* Glass Card */
+.glass-card {
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+}
+
+.glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card h5, .glass-card h6 {
+    color: var(--text-color);
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #ffffff;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.section-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+}
+
+/* Forms & Tables */
+.form-control, .form-select {
+    background-color: var(--surface-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px;
+    padding: 12px 20px;
+    color: var(--text-color) !important;
+}
+.form-control:focus, .form-select:focus {
+    background-color: var(--surface-bg) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
+    color: var(--text-color) !important;
+}
+
+::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 0.8 !important;
+}
+
+.table {
+    background-color: var(--surface-bg);
+    color: var(--text-color) !important;
+}
+.table td, .table th {
+    border-color: var(--border-color);
+    color: var(--text-color) !important;
+}
+
+/* Footer Container - Always Dark Pattern */
+.footer {
+    background-color: var(--footer-bg);
+    color: #e2e8f0; /* Uniform text color for the entire footer */
+    padding: 60px 0 20px;
+    border-top: 1px solid var(--border-color);
+}
+.footer-text,
+.footer-text span,
+.footer-text small,
+.footer p,
+.footer p span,
+.footer p small,
+.footer li,
+.footer li span {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+.footer-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.footer-link:hover {
+    color: var(--primary-light);
+}
+.social-icon {
+    color: #e2e8f0;
+    transition: all 0.3s;
+}
+.social-icon:hover {
+    color: var(--primary-light);
+    transform: translateY(-3px);
+}
+.footer h5, .footer h6 {
+    color: #ffffff !important;
+    font-weight: 600;
+    margin-bottom: 20px;
+}

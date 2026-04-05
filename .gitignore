@@ -1,0 +1,35 @@
+# Sensitive configuration files
+# config.php  # Uncomment if you want to exclude config
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# PHP error logs
+*.log
+error_log
+
+# Composer dependencies (if any)
+/vendor/
+
+# Node modules (if any)
+/node_modules/
+
+# Upload directories (optional - remove if you want to include)
+# uploads/
+
+# Environment files
+.env
+.env.local
+
+# Backup files
+*.bak
+*.backup
+*.sql
